@@ -1,36 +1,27 @@
 #Main backend code#
 from tkinter import *
 import pymongo
+import OrderClasses
 
-class Order(object):
-    def __init__(self, orderNum, company, cost, numParts, date):
-        self.orderNum = orderNum
-        self.company = company
-        self.cost = cost
-        self.numParts = numParts
-        self.date = date
-    def get_orderNum(self):
-        return self.orderNum
-    def get_cost(self):
-        return self.cost
-    def get_company(self):
-        return self.company
-    def get_numParts(self):
-        return self.numParts
-    def get_date(self):
-        return self.date
-    
+
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["mydatabase"]
-mycol = mydb["customers"]
+mydb = myclient["MachineCompany"]
+orders = mydb["Orders"]
+parts = mydb["Parts"]
 
-mydict = {"_id": 8,"name": "John", "address":"Highway 37"}
+#Ask for user input in tkinter
+master = Tk()
+Label(master, text="Company Name").grid(row=0)
+Label(master, text="Order Number").grid(row=1)
 
-x = mycol.insert_one(mydict)
+entryCN = Entry(master)
+entryON = Entry(master)
+entryCN.grid(row=0,column=1)
+entryON.grid(row=1,column=1)
+master.mainloop()
 
-for x in mycol.find({}, {"_id":0, "name": 1}):
-    print(x, type(x))
-    print(x['name'])
+mydict = {"_id": 2,"Company": "Metal Industy", "Parts": 1}
+
 
 
 print(myclient.list_database_names())
